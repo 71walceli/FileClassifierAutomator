@@ -1,0 +1,17 @@
+
+UAE:
+  FileFilters:
+    - ~/Test/VoiceRecordings/*.mp3
+    - ~/Test/Camera/*
+    - ~/Test/Documents/*
+    - ~/Test/Screenshots/*
+  Modules:
+    google-calendar-classifier:
+      startDate: "2022-10-01T00:00:00Z"
+      endDate: "2023-02-01T23:59:59Z"
+      calendarId: 67u6ttl8cdurr119jeikp3rqvg@group.calendar.google.com
+      userCalendarCacheFile: google-calendar-classifier/Data/calendarEvents.json
+      secrets: 
+        oauthApiTokenFile: google-calendar-classifier/Secrets/google_fileClassifier_client_secret_621173729959-tdrauvk39sfrdcvllod4eoh4rna66d64.apps.googleusercontent.com.json
+        oauthUserTokenFile: google-calendar-classifier/Secrets/user_token.json
+      substitutionString: $dirname/$summary/$basename
