@@ -27,26 +27,34 @@ if __name__ == "__main__":
         print(f"ERROR: File {args['config']} not found")
         exit(1)
 
-    moduleResult = {}
+    modules_results = {}
     for name, task in tasks.items():
         task_file_filters = task.get("FileFilters", [])
         for module, settings in task["Modules"].items():
+            if settings is None:
+                settings = dict()
             module_file_filters = task_file_filters + settings.get("FileFilters", [])
-            moduleResult[module] = import_module(f"{module}").main(
+            modules_results[module] = import_module(f"{module}").main(
                 file_filters=module_file_filters, **settings
             )
+            if modules_results[module] is None:
+                modules_results[module] = dict()
 
-    for module, result in moduleResult.items():
-        for file in result["file_actions"]:
+    for module, result in modules_results.items():
+        for file in result.get("file_actions", []):
             for file_action in file["actions"]:
+                # TODO Export to module
                 try:
                     if file_action[0] == "rename":
                         path = Path(file["path"])
                         destination = Path(file_action[1])
                         destination.parent.mkdir(parents=True, exist_ok=True)
                         path.rename(destination)
+                        break
+                    elif file_action[0] == "delete":
+                        Path(file["path"]).unlink()
+                        break
                 except Exception as e:
                     # TODO Save mapping of errors to actions
                     print(f"ERROR: {e}")
 
-    #print(json_dumps(moduleResult, indent=4))

@@ -1,7 +1,7 @@
 
 from collections import namedtuple
-from datetime import datetime, timezone
-from os import stat, walk
+from datetime import datetime
+from os import stat
 from os.path import dirname, isfile
 from json import dumps, loads
 from glob import glob
@@ -29,11 +29,11 @@ def main(**args):
             print(e)
             raise
     
+    # TODO #1 Refactor to be used by other modules
     files_to_process = [
         FileStats(file, stat(file))
         for directory in args["file_filters"]
         for file in glob( str(pathlib.Path(directory).expanduser()) )
-        #for file in files
     ]
     files_to_process.sort(key=lambda file_info: file_info.stats.st_mtime)
     events_with_files = [
