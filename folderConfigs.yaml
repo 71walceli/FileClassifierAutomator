@@ -6,6 +6,12 @@ UAE:
     - ~/Test/Documents/*
     - ~/Test/Screenshots/*
   Modules:
+    common-file-actions:
+      Actions:
+        # TODO #2
+        - Filter: "~/Test/VoiceRecordings/*.recforge2"
+          Action: delete
+    mtime-fixer-from-filename:
     google-calendar-classifier:
       startDate: "2022-10-01T00:00:00Z"
       endDate: "2023-02-01T23:59:59Z"
